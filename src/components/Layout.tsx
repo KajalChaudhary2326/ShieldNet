@@ -4,6 +4,7 @@ import { ArrowRight, Menu, Shield, X } from "lucide-react";
 import { OfflineStatusBadge } from "./OfflineStatusBadge";
 import { ThemeToggle } from "./ThemeToggle";
 import { Sparkle3DBackground } from "./Sparkle3DBackground";
+import { AuthBar } from "./AuthBar";
 
 const NAV_ITEMS = [
   { to: "/", label: "Home", end: true },
@@ -66,6 +67,7 @@ export function Layout({ children }: { children: ReactNode }) {
           <div className="hidden items-center gap-3 md:flex">
             <ThemeToggle />
             <OfflineStatusBadge />
+            <AuthBar />
             <Link
               to="/dashboard"
               className="inline-flex items-center gap-2 rounded-md bg-[var(--color-accent)] px-4 py-2 text-sm font-medium text-[var(--color-base)] transition-opacity hover:opacity-90 shadow-sm"
