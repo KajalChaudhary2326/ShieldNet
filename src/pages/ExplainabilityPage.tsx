@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { getSampleSessions, type ScenarioSession } from "../data/api";
 import { TelemetryHeader } from "../components/TelemetryHeader";
+import { MitreKnowledgeGraphVisualizer } from "../components/MitreKnowledgeGraphVisualizer";
 
 const SCENARIO_EXPLANATIONS: Record<
   string,
@@ -282,6 +283,14 @@ export function ExplainabilityPage() {
           </div>
         </section>
       </div>
+
+      {/* Interactive Symbolic MITRE ATT&CK & Precursor Knowledge Graph DAG */}
+      <MitreKnowledgeGraphVisualizer
+        scenarioId={selectedSessionId}
+        threatType={activeExplanation.mitreDetails.technique}
+        mitreTactic={activeExplanation.mitreDetails.tactic}
+        mitreTechnique={activeExplanation.mitreDetails.id}
+      />
 
       {/* Feature Attribution Breakdown Table & Temporal Attention */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">

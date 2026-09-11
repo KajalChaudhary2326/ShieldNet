@@ -93,6 +93,32 @@ const SAMPLE_FILES: SampleTelemetryFile[] = [
     category: "cii",
   },
   {
+    name: "6_CICIoT2023_SmartGrid_IoT_Flood.csv",
+    type: "csv",
+    size: "1.4 KB",
+    scenarioId: "session-ciciot-ddos-flood",
+    label: "CICIoT2023 Smart-Grid IoT Botnet & DDoS Flood",
+    desc: "Volumetric SYN/UDP flood across 46 IoT telemetry channels automatically adapted to ShieldNet 84-channel World Model state space.",
+    severity: "critical",
+    host_ip: "192.168.1.105",
+    target_ip: "10.0.100.50",
+    ground_truth: "CICIoT2023 DDoS-SYN_Flood (MITRE T1498)",
+    category: "attack",
+  },
+  {
+    name: "7_LANL_Enterprise_Kerberos_LateralMovement.csv",
+    type: "csv",
+    size: "1.2 KB",
+    scenarioId: "sess_lanl_lateral_movement",
+    label: "LANL Enterprise Kerberos/NTLM Lateral Movement",
+    desc: "Red-team adversary credential harvesting via NTLM Pass-the-Hash, high auth velocity burst, and fan-out across critical Active Directory hosts.",
+    severity: "critical",
+    host_ip: "COMP_PIVOT_01",
+    target_ip: "DC_01",
+    ground_truth: "LANL Lateral Movement (MITRE T1078, T1021, T1550)",
+    category: "attack",
+  },
+  {
     name: "sample_enterprise_capture.pcap",
     type: "pcap",
     size: "0.35 KB",
@@ -150,6 +176,8 @@ export function UploadPage() {
     if (fn.startsWith("3_") || fn.includes("ssh") || fn.includes("patator") || fn.includes("ftp") || fn.includes("brute")) return "sess_ssh_patator";
     if (fn.startsWith("4_") || fn.includes("ddos") || fn.includes("hulk") || fn.includes("slow") || fn.includes("dos")) return "sess_slowloris_dos";
     if (fn.startsWith("5_") || fn.includes("scada") || fn.includes("modbus") || fn.includes("grid") || fn.includes("cii")) return "session-scada-grid-exfiltration";
+    if (fn.startsWith("6_") || fn.includes("ciciot") || fn.includes("iot")) return "session-ciciot-ddos-flood";
+    if (fn.startsWith("7_") || fn.includes("lanl") || fn.includes("auth") || fn.includes("kerberos") || fn.includes("ntlm")) return "sess_lanl_lateral_movement";
     if (fn.includes("portscan") || fn.includes("recon")) return "sess_portscan_recon";
     return filename;
   }
@@ -339,15 +367,15 @@ export function UploadPage() {
             </div>
           </div>
           <span className="font-mono text-xs text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/30">
-            8 SESSIONS · OFFLINE READY (C4)
+            10 SESSIONS · OFFLINE READY (C4)
           </span>
         </div>
 
         {/* Category Filter Tabs */}
         <div className="flex flex-wrap items-center gap-2">
           {[
-            { id: "all", label: "All Telemetry (8)" },
-            { id: "attack", label: "⚔️ Attack Scenarios (5)" },
+            { id: "all", label: "All Telemetry (10)" },
+            { id: "attack", label: "⚔️ Attack Scenarios (7)" },
             { id: "cii", label: "⚡ Critical CII SCADA (1)" },
             { id: "pcap", label: "🦈 Raw PCAP Captures (3)" },
             { id: "benign", label: "🟢 Benign Baseline (1)" },

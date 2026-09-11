@@ -11,6 +11,7 @@ import {
   Lock,
   Cpu,
   GitBranch,
+  Blocks,
 } from "lucide-react";
 import { PipelineDiagram } from "../components/PipelineDiagram";
 
@@ -44,6 +45,18 @@ const ARCHITECTURE_TABS = [
     label: "Dual-Level Telemetry Schema",
     icon: Layers,
     tag: "77 Flow + 7 Packet",
+  },
+  {
+    id: "fabric",
+    label: "Cross-CII Fabric Consensus",
+    icon: Blocks,
+    tag: "Multi-Node Blockchain",
+  },
+  {
+    id: "auth",
+    label: "Enterprise OAuth2 / Keycloak IdP",
+    icon: Lock,
+    tag: "RBAC & Zero-Trust",
   },
 ];
 
@@ -440,6 +453,112 @@ export function ArchitecturePage() {
                   <div className="flex justify-between">
                     <span>Packet Burst &amp; Payload Entropy Metrics</span>
                     <span className="font-bold text-[var(--color-accent)]">7 features</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === "fabric" && (
+            <motion.div
+              key="fabric"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              className="space-y-6 font-sans text-sm leading-relaxed text-[var(--color-text-secondary)]"
+            >
+              <div className="grid gap-6 lg:grid-cols-2">
+                <div className="rounded-xl border p-5 bg-[var(--color-base)] space-y-3" style={{ borderColor: "var(--color-border)" }}>
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-amber-400">
+                    Cross-CII Collaborative Endorsement Architecture
+                  </h4>
+                  <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed">
+                    Rather than relying on isolated single-enterprise firewalls, ShieldNet links critical power substations (Wardha 765kV, Jabalpur 400kV, Indore 400kV) and the National Load Despatch Centre (NRLDC) into an immutable permissioned Hyperledger Fabric channel.
+                  </p>
+                  <ul className="space-y-2 text-xs font-mono text-[var(--color-text-primary)]">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 size={13} className="text-amber-400 shrink-0" />
+                      <span>2-of-3 Peer Endorsement Threshold before block commit</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 size={13} className="text-amber-400 shrink-0" />
+                      <span>Crash Fault Tolerant (CFT) Raft Ordering Node</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 size={13} className="text-amber-400 shrink-0" />
+                      <span>Sub-85ms Byzantine Gossip Protocol IoC Replication</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="rounded-xl border p-5 bg-[var(--color-base)] space-y-3" style={{ borderColor: "var(--color-border)" }}>
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
+                    Dual-Tier Evidence Ledger
+                  </h4>
+                  <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed">
+                    Separates the Notary role (cryptographic audit proof) from the Executioner role (firewall boundary), guaranteeing that all SOAR automated mitigations are non-repudiable under Section 65B of the Indian Evidence Act.
+                  </p>
+                  <div className="rounded-lg border border-slate-800 bg-slate-950 p-3 font-mono text-[11px] text-cyan-300">
+                    Block_Hash = SHA256(Prev_Hash || MerkleRoot(Telemetry_DPI) || XAI_Attribution)
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === "auth" && (
+            <motion.div
+              key="auth"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              className="space-y-6 font-sans text-sm leading-relaxed text-[var(--color-text-secondary)]"
+            >
+              <div className="grid gap-6 lg:grid-cols-2">
+                <div className="rounded-xl border p-5 bg-[var(--color-base)] space-y-3" style={{ borderColor: "var(--color-border)" }}>
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-pink-400">
+                    Standards-Compliant OAuth2 / Keycloak IdP
+                  </h4>
+                  <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed">
+                    ShieldNet embeds a full enterprise OpenID Connect (OIDC) identity provider with PBKDF2-HMAC-SHA256 user directories, RS256 cryptographic signing, and single-use refresh token rotation.
+                  </p>
+                  <ul className="space-y-2 text-xs font-mono text-[var(--color-text-primary)]">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 size={13} className="text-pink-400 shrink-0" />
+                      <span>RFC 7517 JSON Web Key Set (JWKS) public descriptor endpoint</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 size={13} className="text-pink-400 shrink-0" />
+                      <span>OIDC Discovery Configuration (/.well-known/openid-configuration)</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 size={13} className="text-pink-400 shrink-0" />
+                      <span>Zero-Trust Persona Switcher for instant SOC analyst evaluation</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="rounded-xl border p-5 bg-[var(--color-base)] space-y-3" style={{ borderColor: "var(--color-border)" }}>
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-cyan-400">
+                    4 Operational Clearance Roles (RBAC)
+                  </h4>
+                  <div className="space-y-2 font-mono text-xs">
+                    <div className="flex justify-between border-b pb-1.5 border-slate-800">
+                      <span className="font-bold text-rose-400">Level 5: CISO_Admin</span>
+                      <span className="text-slate-300">Full Sovereign SOAR Policy Enforcement</span>
+                    </div>
+                    <div className="flex justify-between border-b pb-1.5 border-slate-800">
+                      <span className="font-bold text-amber-400">Level 4: Forensic_Auditor</span>
+                      <span className="text-slate-300">Read-Only Immutable Hash Verification</span>
+                    </div>
+                    <div className="flex justify-between border-b pb-1.5 border-slate-800">
+                      <span className="font-bold text-cyan-400">Level 3: SecOps_Analyst</span>
+                      <span className="text-slate-300">Alert Triage &amp; False-Positive Overrides</span>
+                    </div>
+                    <div className="flex justify-between border-slate-800">
+                      <span className="font-bold text-slate-400">Level 2: Gateway_Ingress</span>
+                      <span className="text-slate-300">Air-Gapped Telemetry Push Only</span>
+                    </div>
                   </div>
                 </div>
               </div>
