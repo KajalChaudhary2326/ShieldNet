@@ -238,7 +238,8 @@ export function PipelineDiagram() {
                 {/* Stage Interactive Card */}
                 <div
                   onClick={() => setSelectedStageId(stage.id)}
-                  className={`group relative flex flex-col justify-between w-[168px] h-[190px] rounded-xl p-4 cursor-pointer transition-all duration-300 select-none ${
+                  onMouseEnter={() => setSelectedStageId(stage.id)}
+                  className={`group relative flex flex-col justify-between w-[168px] h-[190px] rounded-xl p-4 cursor-pointer transition-all duration-200 select-none hover:-translate-y-1 ${
                     isSelected
                       ? "bg-slate-900 border-2 shadow-lg"
                       : "bg-slate-950/90 border hover:bg-slate-900/80 hover:border-slate-500"
@@ -315,9 +316,10 @@ export function PipelineDiagram() {
         {activeStage && (
           <motion.div
             key={activeStage.id}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.15 }}
             className="rounded-2xl border p-6 bg-slate-900/90 shadow-2xl relative overflow-hidden"
             style={{ borderColor: activeStage.accentHex }}
           >
