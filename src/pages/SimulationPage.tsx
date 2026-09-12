@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { RotateCcw, Activity, FileText, Sparkles, Bell, Volume2, VolumeX } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
+import { RotateCcw, Activity, FileText, Sparkles, Volume2, VolumeX } from "lucide-react";
 import { ProbabilityTimeline } from "../components/ProbabilityTimeline";
 import { KStepProjection } from "../components/KStepProjection";
 import { FlaggedFlowsList } from "../components/FlaggedFlowsList";
@@ -193,14 +193,6 @@ export function SimulationPage() {
             {isMuted ? <VolumeX size={14} className="text-rose-400" /> : <Volume2 size={14} className="text-emerald-400" />}
           </button>
 
-          <Link
-            to="/dashboard/live"
-            className="inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs font-semibold text-emerald-400 border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 transition-all shadow-sm"
-            title="Configure Custom IP & WhatsApp/Email Incident Alerts"
-          >
-            <Bell size={13} className="animate-pulse" />
-            <span>WhatsApp Alerts</span>
-          </Link>
 
           <button
             onClick={() => setIsMemoOpen(true)}
