@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { FileText, FileStack, CheckCircle2, Upload, Download, Zap, ShieldAlert, Shield, Database, Cpu, Radio, Lock, Activity } from "lucide-react";
 import { useAppStore } from "../store/useAppStore";
 import type { DatasetName, IngestionStatus, SourceType } from "../data/types";
+import { NetworkTopologyGraph } from "../components/NetworkTopologyGraph";
 
 const PROCESSING_STEPS: { status: IngestionStatus; label: string }[] = [
   { status: "validating", label: "Validating network telemetry schema" },
@@ -303,18 +304,26 @@ export function UploadPage() {
               <FileText size={22} />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)]">
-                Upload Flow CSV / Parquet
-              </h3>
-              <p className="text-xs text-[var(--color-text-muted)]">CICIDS2017, UNSW-NB15, or CSE-CIC-IDS2018 format</p>
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)]">
+                  Upload Flow CSV / Parquet
+                </h3>
+                <span className="font-mono text-[9px] text-cyan-300 bg-cyan-500/15 border border-cyan-500/30 px-1.5 py-0.5 rounded">
+                  HYBRID INGESTION
+                </span>
+              </div>
+              <p className="text-xs text-[var(--color-text-muted)]">CICIDS2017, UNSW-NB15, CTU-13 or CSE-CIC-IDS2018 format</p>
             </div>
           </div>
           <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed">
-            Extracts 77 standardized flow statistics, generates sliding context windows (L=3), and feeds state transitions to the World Model.
+            Extracts 77 standardized flow statistics, applies deterministic L7 proxy imputation (<code className="text-cyan-400">pcap_imputer</code>) for missing packet fields, and feeds temporal state transitions (L=3) to the World Model.
           </p>
-          <div className="mt-4 flex items-center gap-2 font-mono text-xs text-[var(--color-accent)]">
-            <Upload size={13} />
-            <span>Select file (.csv, .parquet)</span>
+          <div className="mt-4 flex items-center justify-between font-mono text-xs text-[var(--color-accent)]">
+            <div className="flex items-center gap-2">
+              <Upload size={13} />
+              <span>Select file (.csv, .parquet)</span>
+            </div>
+            <span className="text-[10px] text-[var(--color-text-muted)]">Deterministic Proxy Imputation</span>
           </div>
         </div>
 
@@ -335,21 +344,32 @@ export function UploadPage() {
               <FileStack size={22} />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-[var(--color-text-primary)] group-hover:text-pink-400">
-                Upload Raw PCAP Stream
-              </h3>
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-[var(--color-text-primary)] group-hover:text-pink-400">
+                  Upload Raw PCAP Stream
+                </h3>
+                <span className="font-mono text-[9px] text-pink-300 bg-pink-500/15 border border-pink-500/30 px-1.5 py-0.5 rounded">
+                  TRUE L7 DPI ENGINE
+                </span>
+              </div>
               <p className="text-xs text-[var(--color-text-muted)]">tcpdump / Wireshark packet captures (.pcap)</p>
             </div>
           </div>
           <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed">
-            Parses raw packets with Scapy, aggregates flow bursts, extracts dual-level packet metrics (TTL variance, TCP window, fragment flags), and computes next-state dynamics.
+            Parses raw packets with Scapy, aggregates flow bursts, extracts dual-level packet metrics (TTL variance, TCP window dynamics, fragment flags, retransmissions), and computes next-state dynamics.
           </p>
-          <div className="mt-4 flex items-center gap-2 font-mono text-xs text-pink-400">
-            <Upload size={13} />
-            <span>Select packet capture (.pcap)</span>
+          <div className="mt-4 flex items-center justify-between font-mono text-xs text-pink-400">
+            <div className="flex items-center gap-2">
+              <Upload size={13} />
+              <span>Select packet capture (.pcap)</span>
+            </div>
+            <span className="text-[10px] text-[var(--color-text-muted)]">Native Scapy Packet DPI</span>
           </div>
         </div>
       </div>
+
+      {/* DYNAMIC NETWORK TOPOLOGY GRAPH (CLAUSE 5 COMPLIANT) */}
+      <NetworkTopologyGraph />
 
       {/* PRE-LOADED OFFLINE TELEMETRY & ATTACK BENCHMARK SUITE */}
       <div className="rounded-xl border p-5 glow-box flex flex-col gap-4" style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-panel)" }}>
