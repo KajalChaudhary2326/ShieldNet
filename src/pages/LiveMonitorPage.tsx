@@ -272,7 +272,7 @@ export function LiveMonitorPage() {
           </div>
           <div>
             <div className="text-[var(--color-text-primary)] font-bold">
-              Looking for 24/7 Custom IP &amp; WhatsApp Alert Sentinel?
+              Looking for Custom IP &amp; WhatsApp Alert Sentinel?
             </div>
             <div className="text-[11px] text-[var(--color-text-muted)]">
               Bind your custom server IP, WhatsApp number, and SOC email in the dedicated Alerts section.
@@ -283,7 +283,7 @@ export function LiveMonitorPage() {
           to="/dashboard/alerts"
           className="inline-flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 font-mono text-xs font-bold bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition-all shadow-md"
         >
-          <span>OPEN 24/7 ALERTS TAB</span>
+          <span>OPEN ALERTS TAB</span>
           <span>&rarr;</span>
         </Link>
       </div>

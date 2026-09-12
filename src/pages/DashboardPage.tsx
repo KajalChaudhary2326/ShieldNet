@@ -11,7 +11,7 @@ const tabs = [
   { to: "/dashboard", label: "Upload", icon: Upload, end: true },
   { to: "/dashboard/live", label: "Live Sniffer", icon: Radio },
   { to: "/dashboard/simulation", label: "Scenario Simulation", icon: Activity },
-  { to: "/dashboard/alerts", label: "24/7 Alerts (WhatsApp & Custom IP)", icon: Bell, highlight: true },
+  { to: "/dashboard/alerts", label: "Alerts (WhatsApp & Custom IP)", icon: Bell, highlight: true },
   { to: "/dashboard/blockchain", label: "Immutable Ledger (SIERL)", icon: Lock, highlight: true },
 ];
 
