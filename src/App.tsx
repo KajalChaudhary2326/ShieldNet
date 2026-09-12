@@ -26,6 +26,8 @@ export default function App() {
 
             <Route path="/upload" element={<Navigate to="/dashboard" replace />} />
             <Route path="/simulation" element={<Navigate to="/dashboard/simulation" replace />} />
+            <Route path="/explainability" element={<Navigate to="/dashboard/explainability" replace />} />
+            <Route path="/baseline" element={<Navigate to="/dashboard/baseline" replace />} />
             <Route path="/compare" element={<Navigate to="/dashboard/baseline" replace />} />
             <Route path="/alerts" element={<Navigate to="/dashboard/alerts" replace />} />
             <Route path="/blockchain" element={<Navigate to="/dashboard/blockchain" replace />} />

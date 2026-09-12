@@ -1,20 +1,44 @@
 import { useState, type ReactNode } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { ArrowRight, Menu, Shield, X } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { ArrowRight, BarChart3, Eye, Menu, Shield, X } from "lucide-react";
 import { OfflineStatusBadge } from "./OfflineStatusBadge";
 import { ThemeToggle } from "./ThemeToggle";
 import { Sparkle3DBackground } from "./Sparkle3DBackground";
 import { AuthBar } from "./AuthBar";
 
-const NAV_ITEMS = [
+interface NavItem {
+  to: string;
+  label: string;
+  icon?: any;
+  end?: boolean;
+}
+
+const NAV_ITEMS: NavItem[] = [
   { to: "/", label: "Home", end: true },
   { to: "/about", label: "About", end: false },
   { to: "/architecture", label: "Architecture", end: false },
+  { to: "/dashboard/explainability", label: "Explainability", icon: Eye, end: false },
+  { to: "/dashboard/baseline", label: "Baseline Comparison", icon: BarChart3, end: false },
   { to: "/dashboard", label: "Live Demo", end: false },
 ];
 
 export function Layout({ children }: { children: ReactNode }) {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const location = useLocation();
+
+  const isNavActive = (to: string, end?: boolean) => {
+    if (end) {
+      return location.pathname === to;
+    }
+    if (to === "/dashboard") {
+      return (
+        location.pathname.startsWith("/dashboard") &&
+        !location.pathname.startsWith("/dashboard/explainability") &&
+        !location.pathname.startsWith("/dashboard/baseline")
+      );
+    }
+    return location.pathname === to || location.pathname.startsWith(`${to}/`);
+  };
 
   return (
     <div className="sentinel-app min-h-screen bg-grid" style={{ backgroundColor: "var(--color-base)" }}>
@@ -27,8 +51,8 @@ export function Layout({ children }: { children: ReactNode }) {
       </a>
 
       <header className="sticky top-0 z-40 border-b backdrop-blur-sm" style={{ borderColor: "var(--color-border)", backgroundColor: "color-mix(in srgb, var(--color-base) 88%, transparent)" }}>
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
-          <Link to="/" className="flex items-center gap-3" onClick={() => setIsMobileNavOpen(false)}>
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+          <Link to="/" className="flex items-center gap-2.5 shrink-0" onClick={() => setIsMobileNavOpen(false)}>
             <div
               className="flex h-9 w-9 items-center justify-center rounded-md"
               style={{ backgroundColor: "color-mix(in srgb, var(--color-accent) 16%, transparent)" }}
@@ -41,43 +65,44 @@ export function Layout({ children }: { children: ReactNode }) {
             </div>
           </Link>
 
-          <nav className="hidden items-center gap-1 md:flex">
-            {NAV_ITEMS.map(({ to, label, end }) => (
-              <NavLink
-                key={to}
-                to={to}
-                end={end}
-                onClick={() => setIsMobileNavOpen(false)}
-                className={({ isActive }) =>
-                  `nav-glow rounded-md px-3 py-2 text-sm font-medium ${
-                    isActive
-                      ? "active text-[var(--color-accent)]"
-                      : "text-[var(--color-text-secondary)]"
-                  }`
-                }
-                style={({ isActive }) => ({
-                  backgroundColor: isActive ? "color-mix(in srgb, var(--color-accent) 12%, transparent)" : "transparent",
-                })}
-              >
-                {label}
-              </NavLink>
-            ))}
+          <nav className="hidden items-center gap-1 xl:gap-1.5 lg:flex">
+            {NAV_ITEMS.map(({ to, label, icon: Icon, end }) => {
+              const active = isNavActive(to, end);
+              return (
+                <Link
+                  key={to}
+                  to={to}
+                  onClick={() => setIsMobileNavOpen(false)}
+                  className={`nav-glow inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs xl:text-sm font-medium transition-colors ${
+                    active
+                      ? "active text-[var(--color-accent)] font-semibold"
+                      : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+                  }`}
+                  style={{
+                    backgroundColor: active ? "color-mix(in srgb, var(--color-accent) 12%, transparent)" : "transparent",
+                  }}
+                >
+                  {Icon && <Icon size={14} className="opacity-80 shrink-0" />}
+                  <span>{label}</span>
+                </Link>
+              );
+            })}
           </nav>
 
-          <div className="hidden items-center gap-3 md:flex">
+          <div className="hidden items-center gap-2.5 lg:flex shrink-0">
             <ThemeToggle />
             <OfflineStatusBadge />
             <AuthBar />
             <Link
               to="/dashboard"
-              className="inline-flex items-center gap-2 rounded-md bg-[var(--color-accent)] px-4 py-2 text-sm font-medium text-[var(--color-base)] transition-opacity hover:opacity-90 shadow-sm"
+              className="inline-flex items-center gap-2 rounded-md bg-[var(--color-accent)] px-3.5 py-2 text-sm font-medium text-[var(--color-base)] transition-opacity hover:opacity-90 shadow-sm"
             >
               Try Live Demo
               <ArrowRight size={15} />
             </Link>
           </div>
 
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
             <ThemeToggle />
             <button
               type="button"
@@ -92,28 +117,29 @@ export function Layout({ children }: { children: ReactNode }) {
         </div>
 
         {isMobileNavOpen && (
-          <div className="border-t px-4 py-3 md:hidden" style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-panel)" }}>
+          <div className="border-t px-4 py-3 lg:hidden" style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-panel)" }}>
             <nav className="flex flex-col gap-1">
-              {NAV_ITEMS.map(({ to, label, end }) => (
-                <NavLink
-                  key={to}
-                  to={to}
-                  end={end}
-                  onClick={() => setIsMobileNavOpen(false)}
-                  className={({ isActive }) =>
-                    `nav-glow rounded-md px-3 py-2 text-sm font-medium ${
-                      isActive
-                        ? "active text-[var(--color-accent)]"
+              {NAV_ITEMS.map(({ to, label, icon: Icon, end }) => {
+                const active = isNavActive(to, end);
+                return (
+                  <Link
+                    key={to}
+                    to={to}
+                    onClick={() => setIsMobileNavOpen(false)}
+                    className={`nav-glow inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                      active
+                        ? "active text-[var(--color-accent)] font-semibold"
                         : "text-[var(--color-text-secondary)]"
-                    }`
-                  }
-                  style={({ isActive }) => ({
-                    backgroundColor: isActive ? "color-mix(in srgb, var(--color-accent) 12%, transparent)" : "transparent",
-                  })}
-                >
-                  {label}
-                </NavLink>
-              ))}
+                    }`}
+                    style={{
+                      backgroundColor: active ? "color-mix(in srgb, var(--color-accent) 12%, transparent)" : "transparent",
+                    }}
+                  >
+                    {Icon && <Icon size={15} className="opacity-80 shrink-0" />}
+                    <span>{label}</span>
+                  </Link>
+                );
+              })}
             </nav>
             <div className="mt-3 flex items-center justify-between gap-3 border-t pt-3" style={{ borderColor: "var(--color-border)" }}>
               <OfflineStatusBadge />
@@ -151,10 +177,12 @@ export function Layout({ children }: { children: ReactNode }) {
               Offline Neural World Model Architecture (Constraint C4 Compliant)
             </div>
             <div className="flex flex-wrap items-center gap-4 text-[var(--color-text-muted)]">
-              <NavLink to="/" className="hover:text-[var(--color-text-primary)]">Home</NavLink>
-              <NavLink to="/about" className="hover:text-[var(--color-text-primary)]">About</NavLink>
-              <NavLink to="/architecture" className="hover:text-[var(--color-text-primary)]">Architecture</NavLink>
-              <NavLink to="/dashboard" className="hover:text-[var(--color-text-primary)]">Live Demo</NavLink>
+              <Link to="/" className="hover:text-[var(--color-text-primary)]">Home</Link>
+              <Link to="/about" className="hover:text-[var(--color-text-primary)]">About</Link>
+              <Link to="/architecture" className="hover:text-[var(--color-text-primary)]">Architecture</Link>
+              <Link to="/dashboard/explainability" className="hover:text-[var(--color-text-primary)]">Explainability</Link>
+              <Link to="/dashboard/baseline" className="hover:text-[var(--color-text-primary)]">Baseline Comparison</Link>
+              <Link to="/dashboard" className="hover:text-[var(--color-text-primary)]">Live Demo</Link>
             </div>
           </div>
         </div>
