@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ArrowRight, BarChart3, Eye, Menu, Shield, X } from "lucide-react";
+import { BarChart3, Eye, Menu, Shield, X } from "lucide-react";
 import { OfflineStatusBadge } from "./OfflineStatusBadge";
 import { ThemeToggle } from "./ThemeToggle";
 import { Sparkle3DBackground } from "./Sparkle3DBackground";
@@ -50,22 +50,24 @@ export function Layout({ children }: { children: ReactNode }) {
         Skip to content
       </a>
 
-      <header className="sticky top-0 z-40 border-b backdrop-blur-sm" style={{ borderColor: "var(--color-border)", backgroundColor: "color-mix(in srgb, var(--color-base) 88%, transparent)" }}>
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
-          <Link to="/" className="flex items-center gap-2.5 shrink-0" onClick={() => setIsMobileNavOpen(false)}>
+      <header className="sticky top-0 z-40 border-b backdrop-blur-md" style={{ borderColor: "var(--color-border)", backgroundColor: "color-mix(in srgb, var(--color-base) 88%, transparent)" }}>
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+          {/* Left: Brand Identity */}
+          <Link to="/" className="flex items-center gap-3 shrink-0" onClick={() => setIsMobileNavOpen(false)}>
             <div
-              className="flex h-9 w-9 items-center justify-center rounded-md"
-              style={{ backgroundColor: "color-mix(in srgb, var(--color-accent) 16%, transparent)" }}
+              className="flex h-9 w-9 items-center justify-center rounded-lg shadow-sm"
+              style={{ backgroundColor: "color-mix(in srgb, var(--color-accent) 18%, transparent)", border: "1px solid color-mix(in srgb, var(--color-accent) 30%, transparent)" }}
             >
-              <Shield size={16} style={{ color: "var(--color-accent)" }} />
+              <Shield size={18} style={{ color: "var(--color-accent)" }} />
             </div>
             <div>
-              <div className="text-base font-semibold tracking-tight text-[var(--color-text-primary)]">SHIELDNET</div>
-              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--color-text-muted)]">SIH26153 · NTRO</div>
+              <div className="text-base font-bold tracking-tight text-[var(--color-text-primary)]">SHIELDNET</div>
+              <div className="font-mono text-[9.5px] uppercase tracking-[0.22em] text-[var(--color-text-muted)]">SIH26153 · NTRO</div>
             </div>
           </Link>
 
-          <nav className="hidden items-center gap-1 xl:gap-1.5 lg:flex">
+          {/* Center: Cleanly Aligned Primary Navigation */}
+          <nav className="hidden items-center gap-1.5 xl:gap-2 lg:flex">
             {NAV_ITEMS.map(({ to, label, icon: Icon, end }) => {
               const active = isNavActive(to, end);
               return (
@@ -73,35 +75,31 @@ export function Layout({ children }: { children: ReactNode }) {
                   key={to}
                   to={to}
                   onClick={() => setIsMobileNavOpen(false)}
-                  className={`nav-glow inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs xl:text-sm font-medium transition-colors ${
+                  className={`nav-glow inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
                     active
-                      ? "active text-[var(--color-accent)] font-semibold"
-                      : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+                      ? "active text-[var(--color-accent)] font-semibold shadow-sm"
+                      : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-white/5"
                   }`}
                   style={{
-                    backgroundColor: active ? "color-mix(in srgb, var(--color-accent) 12%, transparent)" : "transparent",
+                    backgroundColor: active ? "color-mix(in srgb, var(--color-accent) 14%, transparent)" : "transparent",
+                    border: active ? "1px solid color-mix(in srgb, var(--color-accent) 25%, transparent)" : "1px solid transparent",
                   }}
                 >
-                  {Icon && <Icon size={14} className="opacity-80 shrink-0" />}
+                  {Icon && <Icon size={15} className="opacity-85 shrink-0" />}
                   <span>{label}</span>
                 </Link>
               );
             })}
           </nav>
 
-          <div className="hidden items-center gap-2.5 lg:flex shrink-0">
+          {/* Right: Operational Status, Theme, & User Clearance Controls */}
+          <div className="hidden items-center gap-3 lg:flex shrink-0">
             <ThemeToggle />
             <OfflineStatusBadge />
             <AuthBar />
-            <Link
-              to="/dashboard"
-              className="inline-flex items-center gap-2 rounded-md bg-[var(--color-accent)] px-3.5 py-2 text-sm font-medium text-[var(--color-base)] transition-opacity hover:opacity-90 shadow-sm"
-            >
-              Try Live Demo
-              <ArrowRight size={15} />
-            </Link>
           </div>
 
+          {/* Mobile hamburger menu toggle */}
           <div className="flex items-center gap-2 lg:hidden">
             <ThemeToggle />
             <button
@@ -116,9 +114,10 @@ export function Layout({ children }: { children: ReactNode }) {
           </div>
         </div>
 
+        {/* Mobile Navigation Drawer */}
         {isMobileNavOpen && (
           <div className="border-t px-4 py-3 lg:hidden" style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-panel)" }}>
-            <nav className="flex flex-col gap-1">
+            <nav className="flex flex-col gap-1.5">
               {NAV_ITEMS.map(({ to, label, icon: Icon, end }) => {
                 const active = isNavActive(to, end);
                 return (
@@ -126,16 +125,17 @@ export function Layout({ children }: { children: ReactNode }) {
                     key={to}
                     to={to}
                     onClick={() => setIsMobileNavOpen(false)}
-                    className={`nav-glow inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                    className={`nav-glow inline-flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                       active
                         ? "active text-[var(--color-accent)] font-semibold"
-                        : "text-[var(--color-text-secondary)]"
+                        : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
                     }`}
                     style={{
-                      backgroundColor: active ? "color-mix(in srgb, var(--color-accent) 12%, transparent)" : "transparent",
+                      backgroundColor: active ? "color-mix(in srgb, var(--color-accent) 14%, transparent)" : "transparent",
+                      border: active ? "1px solid color-mix(in srgb, var(--color-accent) 25%, transparent)" : "1px solid transparent",
                     }}
                   >
-                    {Icon && <Icon size={15} className="opacity-80 shrink-0" />}
+                    {Icon && <Icon size={16} className="opacity-85 shrink-0" />}
                     <span>{label}</span>
                   </Link>
                 );
@@ -143,14 +143,7 @@ export function Layout({ children }: { children: ReactNode }) {
             </nav>
             <div className="mt-3 flex items-center justify-between gap-3 border-t pt-3" style={{ borderColor: "var(--color-border)" }}>
               <OfflineStatusBadge />
-              <Link
-                to="/dashboard"
-                onClick={() => setIsMobileNavOpen(false)}
-                className="inline-flex items-center gap-2 rounded-md bg-[var(--color-accent)] px-3 py-2 text-sm font-medium text-[var(--color-base)]"
-              >
-                Try Live Demo
-                <ArrowRight size={14} />
-              </Link>
+              <AuthBar />
             </div>
           </div>
         )}
