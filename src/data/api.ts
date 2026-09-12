@@ -884,6 +884,13 @@ export interface MitreReasoningResponse {
   top_driving_feature: string;
   attribution_magnitude: number;
   prescribed_mitigation: string;
+  cve_id?: string;
+  cvss_score?: number;
+  cvss_severity?: string;
+  nvd_advisory?: string;
+  nciipc_sector?: string;
+  nciipc_sop?: string;
+  target_critical_asset?: string;
   forensic_narrative: string;
 }
 
@@ -955,7 +962,14 @@ export async function getMitreReasoning(params: {
       top_driving_feature: "subflow_fwd_bytes",
       attribution_magnitude: 0.634,
       prescribed_mitigation: "M1037: Filter Network Traffic & Isolate Modbus Substation PLC",
-      forensic_narrative: `Host ${host} initiated unauthorized Modbus PLC control queries targeting Critical Substation Gateway ${target} on Port 502 with precursor anomaly in 'subflow_fwd_bytes' (Attribution: +0.634). The Neural World Model forecasts Industrial Infiltration via MITRE T1021.002 (Modbus ICS Access) with ${conf}% confidence. Observed telemetry matches CAPEC-665 (SCADA Register Manipulation). Forward dynamics project progression from Infiltration -> System Interruption over +30s.`,
+      cve_id: "CVE-2022-29951",
+      cvss_score: 9.8,
+      cvss_severity: "CRITICAL",
+      nvd_advisory: "https://nvd.nist.gov/vuln/detail/CVE-2022-29951",
+      nciipc_sector: "Sector 1: Power & Energy (SCADA Grid)",
+      nciipc_sop: "NCIIPC-SOP-SEC1-04: Substation Isolation & OT Ingress Scram",
+      target_critical_asset: "Substation RTU / Siemens S7-1500 PLC Gateway",
+      forensic_narrative: `Host ${host} initiated unauthorized Modbus PLC control queries targeting Critical Substation Gateway ${target} on Port 502 with precursor anomaly in 'subflow_fwd_bytes' (Attribution: +0.634). The Neural World Model forecasts Industrial Infiltration via MITRE T1021.002 (Modbus ICS Access) correlated with CVE-2022-29951 (CVSS 9.8 CRITICAL) with ${conf}% confidence. Telemetry matches CAPEC-665. Forward dynamics project Infiltration -> System Interruption over +30s under NCIIPC Sector 1 SOP.`,
     };
   } else if (cls.includes("bot") || cls.includes("c2") || cls.includes("ares")) {
     return {
@@ -977,7 +991,14 @@ export async function getMitreReasoning(params: {
       top_driving_feature: "flow_iat_mean",
       attribution_magnitude: 0.512,
       prescribed_mitigation: "M1031: Network Intrusion Prevention & Egress Filtering",
-      forensic_narrative: `Host ${host} initiated periodic jittered beaconing targeting C2 Server ${target} on Port 8080 with precursor anomaly in 'flow_iat_mean' (Attribution: +0.512). The Neural World Model forecasts Command & Control via MITRE T1071.001 (C2 Web Beaconing) with ${conf}% confidence. Observed telemetry matches CAPEC-588 (Reverse Shell Command Loop). Forward dynamics project progression from Command & Control -> Data Exfiltration over +30s.`,
+      cve_id: "CVE-2019-11510",
+      cvss_score: 9.8,
+      cvss_severity: "CRITICAL",
+      nvd_advisory: "https://nvd.nist.gov/vuln/detail/CVE-2019-11510",
+      nciipc_sector: "Sector 3: Telecom & Strategic Backbone",
+      nciipc_sop: "NCIIPC-SOP-SEC3-14: BGP Blackhole Routing & Autonomous C2 Null-Route",
+      target_critical_asset: "Backbone ISP Peering & Enterprise Core DNS",
+      forensic_narrative: `Host ${host} initiated periodic jittered beaconing targeting C2 Server ${target} on Port 8080 with precursor anomaly in 'flow_iat_mean' (Attribution: +0.512). The Neural World Model forecasts Command & Control via MITRE T1071.001 (C2 Web Beaconing) correlated with CVE-2019-11510 (CVSS 9.8 CRITICAL) with ${conf}% confidence. Telemetry matches CAPEC-588. Forward dynamics project Command & Control -> Data Exfiltration over +30s.`,
     };
   } else if (cls.includes("dos") || cls.includes("ddos") || cls.includes("hulk") || cls.includes("slow")) {
     return {
@@ -999,7 +1020,14 @@ export async function getMitreReasoning(params: {
       top_driving_feature: "flow_bytes_s",
       attribution_magnitude: 0.589,
       prescribed_mitigation: "M1037: Ingress Rate Limiting & Socket Throttling",
-      forensic_narrative: `Host ${host} initiated volumetric HTTP connection pool exhaustion targeting Web Server ${target} on Port 80 with precursor anomaly in 'flow_bytes_s' (Attribution: +0.589). The Neural World Model forecasts Service Interruption via MITRE T1498 (Denial of Service) with ${conf}% confidence. Telemetry matches CAPEC-488 (HTTP Connection Lock). Forward dynamics project total socket pool exhaustion over +30s.`,
+      cve_id: "CVE-2007-6750",
+      cvss_score: 7.5,
+      cvss_severity: "HIGH",
+      nvd_advisory: "https://nvd.nist.gov/vuln/detail/CVE-2007-6750",
+      nciipc_sector: "Sector 2: Banking & Financial Market Infrastructure",
+      nciipc_sop: "NCIIPC-SOP-SEC2-07: Ingress Scrubbing Center Redirection & TCP RST Flood Kill",
+      target_critical_asset: "National Payment Switch & High-Volume Clearing Gateway",
+      forensic_narrative: `Host ${host} initiated volumetric HTTP connection pool exhaustion targeting Web Server ${target} on Port 80 with precursor anomaly in 'flow_bytes_s' (Attribution: +0.589). The Neural World Model forecasts Service Interruption via MITRE T1498 (Denial of Service) correlated with CVE-2007-6750 with ${conf}% confidence. Telemetry matches CAPEC-488. Forward dynamics project total socket pool exhaustion over +30s.`,
     };
   } else if (cls.includes("portscan") || cls.includes("recon")) {
     return {
@@ -1021,7 +1049,14 @@ export async function getMitreReasoning(params: {
       top_driving_feature: "fwd_packets_s",
       attribution_magnitude: 0.412,
       prescribed_mitigation: "M1037: Rate Limit Ingress SYN Bursts & Block Scanning Subnet",
-      forensic_narrative: `Host ${host} initiated horizontal SYN port sweeps targeting ${target} across multi-port ranges with precursor anomaly in 'fwd_packets_s' (Attribution: +0.412). The Neural World Model forecasts Network Reconnaissance via MITRE T1046 (Port Scanning) with ${conf}% confidence. Telemetry matches CAPEC-300. Forward dynamics project transition from Reconnaissance -> Initial Access over +30s.`,
+      cve_id: "CVE-2023-44487",
+      cvss_score: 7.5,
+      cvss_severity: "HIGH",
+      nvd_advisory: "https://nvd.nist.gov/vuln/detail/CVE-2023-44487",
+      nciipc_sector: "Sector 3: Telecom & Strategic Information Infrastructure",
+      nciipc_sop: "NCIIPC-SOP-SEC3-08: Border Gateway Rapid Port Filtering & Stealth Drop",
+      target_critical_asset: "Perimeter Gateway / Core Router Interface",
+      forensic_narrative: `Host ${host} initiated horizontal SYN port sweeps targeting ${target} across multi-port ranges with precursor anomaly in 'fwd_packets_s' (Attribution: +0.412). The Neural World Model forecasts Network Reconnaissance via MITRE T1046 (Port Scanning) correlated with CVE-2023-44487 with ${conf}% confidence. Telemetry matches CAPEC-300. Forward dynamics project transition from Reconnaissance -> Initial Access over +30s.`,
     };
   } else if (cls.includes("benign") || cls.includes("normal")) {
     return {
@@ -1043,6 +1078,13 @@ export async function getMitreReasoning(params: {
       top_driving_feature: "flow_duration",
       attribution_magnitude: 0.012,
       prescribed_mitigation: "No Mitigation Required: Stationary Baseline",
+      cve_id: undefined,
+      cvss_score: 0.0,
+      cvss_severity: "NONE",
+      nvd_advisory: undefined,
+      nciipc_sector: "Standard Enterprise Zone",
+      nciipc_sop: "NCIIPC-SOP-GEN-01: Baseline Passive Telemetry Retention",
+      target_critical_asset: "Standard Workstation Baseline",
       forensic_narrative: `Host ${host} demonstrated stationary workstation traffic targeting ${target} on port 443 with normal baseline metrics. Neural World Model maintains ${conf}% confidence in Benign Stationary State with 0% risk acceleration.`,
     };
   } else {
@@ -1065,7 +1107,14 @@ export async function getMitreReasoning(params: {
       top_driving_feature: "retransmission_count",
       attribution_magnitude: 0.428,
       prescribed_mitigation: "M1036: Account Lockout & SSH Ingress Rate Limiting",
-      forensic_narrative: `Host ${host} initiated SSH credential dictionary assault targeting ${target} on Port 22 with precursor anomaly in 'retransmission_count' (Attribution: +0.428). The Neural World Model forecasts Initial Access via MITRE T1110 (Brute Force) with ${conf}% confidence. Telemetry matches CAPEC-112. Forward dynamics project progression from Initial Access -> Lateral Movement over +30s.`,
+      cve_id: "CVE-2018-15473",
+      cvss_score: 7.5,
+      cvss_severity: "HIGH",
+      nvd_advisory: "https://nvd.nist.gov/vuln/detail/CVE-2018-15473",
+      nciipc_sector: "Sector 2: Banking, Financial Services & Insurance (BFSI)",
+      nciipc_sop: "NCIIPC-SOP-SEC2-12: Zero-Trust Perimeter Lockout & Ephemeral Key Rotation",
+      target_critical_asset: "Enterprise Active Directory & Jump-Host DMZ",
+      forensic_narrative: `Host ${host} initiated SSH credential dictionary assault targeting ${target} on Port 22 with precursor anomaly in 'retransmission_count' (Attribution: +0.428). The Neural World Model forecasts Initial Access via MITRE T1110 (Brute Force) correlated with CVE-2018-15473 (CVSS 7.5 HIGH) with ${conf}% confidence. Telemetry matches CAPEC-112. Forward dynamics project progression from Initial Access -> Lateral Movement over +30s.`,
     };
   }
 }

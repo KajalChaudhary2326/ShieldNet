@@ -5,6 +5,7 @@ import { FileText, FileStack, CheckCircle2, Upload, Download, Zap, ShieldAlert, 
 import { useAppStore } from "../store/useAppStore";
 import type { DatasetName, IngestionStatus, SourceType } from "../data/types";
 import { NetworkTopologyGraph } from "../components/NetworkTopologyGraph";
+import { MultiModalTelemetryHub } from "../components/MultiModalTelemetryHub";
 
 const PROCESSING_STEPS: { status: IngestionStatus; label: string }[] = [
   { status: "validating", label: "Validating network telemetry schema" },
@@ -370,6 +371,9 @@ export function UploadPage() {
 
       {/* DYNAMIC NETWORK TOPOLOGY GRAPH (CLAUSE 5 COMPLIANT) */}
       <NetworkTopologyGraph />
+
+      {/* MULTI-MODAL TRI-TELEMETRY FUSION & KNOWLEDGE HUB (PS 26153) */}
+      <MultiModalTelemetryHub />
 
       {/* PRE-LOADED OFFLINE TELEMETRY & ATTACK BENCHMARK SUITE */}
       <div className="rounded-xl border p-5 glow-box flex flex-col gap-4" style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-panel)" }}>

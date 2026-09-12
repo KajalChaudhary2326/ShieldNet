@@ -291,10 +291,50 @@ export function MitreLifecycleTimeline({ reasoning, currentStage }: MitreLifecyc
 
       {/* Deep Symbolic Forensic Narrative (if reasoning available) */}
       {reasoning && (
-        <div className="rounded-lg p-3 text-xs leading-relaxed border" style={{ backgroundColor: "color-mix(in srgb, var(--color-base) 60%, transparent)", borderColor: "var(--color-border)" }}>
-          <div className="flex items-start gap-2 mb-2">
+        <div className="rounded-lg p-3.5 text-xs leading-relaxed border flex flex-col gap-3" style={{ backgroundColor: "color-mix(in srgb, var(--color-base) 60%, transparent)", borderColor: "var(--color-border)" }}>
+          {/* Sovereign Intelligence Badges Bar */}
+          <div className="flex flex-wrap items-center gap-2 pb-2.5 border-b" style={{ borderColor: "color-mix(in srgb, var(--color-text-primary) 8%, transparent)" }}>
+            {reasoning.cve_id && (
+              <a
+                href={reasoning.nvd_advisory || `https://nvd.nist.gov/vuln/detail/${reasoning.cve_id}`}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-rose-500/15 text-rose-300 border border-rose-500/40 hover:bg-rose-500/25 transition-colors"
+                title="View National Vulnerability Database Advisory"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
+                <span>{reasoning.cve_id}</span>
+                <span className="px-1 py-0.5 rounded bg-rose-950 text-rose-400 text-[9px]">
+                  CVSS {reasoning.cvss_score?.toFixed(1) || "9.8"} {reasoning.cvss_severity || "CRITICAL"}
+                </span>
+                <ExternalLink size={9} />
+              </a>
+            )}
+
+            {reasoning.nciipc_sector && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-indigo-500/15 text-indigo-300 border border-indigo-500/40">
+                <ShieldCheck size={11} className="text-indigo-400" />
+                <span>{reasoning.nciipc_sector}</span>
+              </span>
+            )}
+
+            {reasoning.nciipc_sop && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-mono bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
+                <span>{reasoning.nciipc_sop}</span>
+              </span>
+            )}
+
+            {reasoning.target_critical_asset && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-mono bg-slate-800 text-slate-300 border border-slate-700 ml-auto">
+                <Target size={10} className="text-amber-400" />
+                <span>Asset: {reasoning.target_critical_asset}</span>
+              </span>
+            )}
+          </div>
+
+          <div className="flex items-start gap-2.5">
             <AlertCircle size={15} className="text-[var(--color-accent)] mt-0.5 shrink-0" />
-            <p className="text-[var(--color-text-primary)] font-sans">
+            <p className="text-[var(--color-text-primary)] font-sans leading-relaxed">
               {reasoning.forensic_narrative}
             </p>
           </div>

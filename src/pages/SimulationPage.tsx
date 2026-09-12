@@ -15,6 +15,7 @@ import { IncidentDossierModal } from "../components/IncidentDossierModal";
 import { ShapExplanationCard } from "../components/ShapExplanationCard";
 import { NetworkTopologyVisualizer } from "../components/NetworkTopologyVisualizer";
 import { ExecutiveMemoModal } from "../components/ExecutiveMemoModal";
+import { OODDomainGuardCard } from "../components/OODDomainGuardCard";
 import { soundManager } from "../utils/soundEffects";
 import {
   getTimeline,
@@ -251,6 +252,9 @@ export function SimulationPage() {
         reasoning={mitreReasoning}
         currentStage={currentSession?.mitre_stage || 2}
       />
+
+      {/* Out-of-Distribution (OOD) Domain Guard Visualizer */}
+      <OODDomainGuardCard sessionId={targetSessionId} />
 
       {/* Main Grid: Forecast Timeline & Side Panels */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px]">

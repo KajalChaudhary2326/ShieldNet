@@ -68,9 +68,40 @@ export function ShapExplanationCard({
 
       {/* Forensic Narrative Callout */}
       <div className="rounded-lg border p-3.5 bg-[var(--color-base)] text-xs leading-relaxed" style={{ borderColor: "var(--color-border)" }}>
-        <div className="flex items-center gap-1.5 font-mono text-[10px] text-[var(--color-accent)] font-semibold mb-1">
-          <ShieldAlert size={13} />
-          FORENSIC NARRATIVE ({profile.targetClass.toUpperCase()} ATTRIBUTION):
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
+          <div className="flex items-center gap-1.5 font-mono text-[10px] text-[var(--color-accent)] font-semibold">
+            <ShieldAlert size={13} />
+            FORENSIC NARRATIVE ({profile.targetClass.toUpperCase()} ATTRIBUTION):
+          </div>
+
+          <div className="flex items-center gap-1.5 font-mono text-[9px]">
+            {profile.targetClass !== "BENIGN" ? (
+              <>
+                <span className="px-1.5 py-0.5 rounded bg-rose-950/60 text-rose-300 border border-rose-800/40">
+                  {profile.targetClass.includes("Infiltration") || profile.targetClass.includes("SCADA")
+                    ? "CVE-2022-29951 (CVSS 9.8)"
+                    : profile.targetClass.includes("Bot")
+                    ? "CVE-2019-11510 (CVSS 9.8)"
+                    : profile.targetClass.includes("Patator")
+                    ? "CVE-2018-15473 (CVSS 7.5)"
+                    : profile.targetClass.includes("DoS")
+                    ? "CVE-2007-6750 (CVSS 7.5)"
+                    : "CVE-2023-44487 (CVSS 7.5)"}
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-indigo-950/60 text-indigo-300 border border-indigo-800/40">
+                  {profile.targetClass.includes("Infiltration") || profile.targetClass.includes("SCADA")
+                    ? "NCIIPC Sector 1 (Energy)"
+                    : profile.targetClass.includes("Patator") || profile.targetClass.includes("DoS")
+                    ? "NCIIPC Sector 2 (BFSI)"
+                    : "NCIIPC Sector 3 (Telecom)"}
+                </span>
+              </>
+            ) : (
+              <span className="px-1.5 py-0.5 rounded bg-emerald-950/60 text-emerald-300 border border-emerald-800/40">
+                Baseline Enterprise Activity
+              </span>
+            )}
+          </div>
         </div>
         <p className="text-[var(--color-text-primary)]">
           {profile.narrative}
