@@ -12,7 +12,15 @@ import {
   X,
   ShieldCheck,
   FileText,
-  Copy
+  Copy,
+  RefreshCw,
+  Terminal,
+  Upload,
+  Search,
+  Shield,
+  Network,
+  Zap,
+  Server
 } from "lucide-react";
 import {
   fetchLedgerBlocks,
